@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_demo2/repository/api_repo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,6 +50,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String ipAddress = "Ip Address Display Here";
 
   void _incrementCounter() {
     setState(() {
@@ -95,21 +97,26 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              'You have pushed the button this many times: $ipAddress',
             ),
             Text(
-              '$_counter',
+              ipAddress,
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: apiCall,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void apiCall() {
+    Repo repo = Repo();
+    repo.getIpAddress().then((value) => setState(() => ipAddress = value));
   }
 }
